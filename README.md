@@ -10,7 +10,7 @@ Prasyarat Node.js 22.12+ dan npm. Dari direktori proyek, instalasi pertama sekal
 npm install && npm start
 ```
 
-Selanjutnya cukup `npm start`, buka http://127.0.0.1:3000. Server terikat loopback. Data dibuat otomatis pada akses pertama di `data/db.json`, tetap ada setelah restart. Menu **Skenario uji → Reset seluruh data demo** menghapus perubahan dan impor setelah konfirmasi.
+Selanjutnya cukup `npm start`, buka http://127.0.0.1:3000. Server terikat loopback. Data dibuat otomatis pada akses pertama di `data/db.json`, tetap ada setelah restart. Variabel lingkungan opsional `TAGIH_DATA_FILE` mengganti lokasi berkas data (dipakai tes browser agar tidak menyentuh data lokal); tidak ada variabel rahasia. Menu **Skenario uji → Reset seluruh data demo** menghapus perubahan dan impor setelah konfirmasi.
 
 ```sh
 npm test             # tes inti dan integrasi penyimpanan
