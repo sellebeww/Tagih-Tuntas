@@ -1,7 +1,7 @@
 @import "tailwindcss";
 :root {
   --ink: #193931;
-  --muted: #70827c;
+  --muted: #5e706a; /* ≥4.5:1 on paper, white and table headers (WCAG AA) */
   --line: #e0e8e2;
   --green: #236247;
   --paper: #f4f6f2;
@@ -481,9 +481,13 @@ code {
 .card .row {
   flex-wrap: wrap;
 }
-button:focus-visible,
-a:focus-visible {
-  outline: 3px solid #a5c77a;
+:focus-visible {
+  outline: 3px solid var(--green);
+}
+/* The light ring only has enough contrast on the dark surfaces. */
+.sidebar :focus-visible,
+.notice :focus-visible {
+  outline-color: #a5c77a;
 }
 form button {
   margin-top: 6px;

@@ -4,6 +4,8 @@ export const metadata: Metadata = {
   title: "TagihTuntas · Piutang lebih jelas",
   description:
     "Kenali hambatan invoice, lengkapi persyaratan, arahkan tindakan.",
+  // Private local workspace; buyer token pages must never be indexed.
+  robots: { index: false, follow: false },
 };
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

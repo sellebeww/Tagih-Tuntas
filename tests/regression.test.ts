@@ -221,6 +221,10 @@ it("regex and date validation reject dangerous inputs", () => {
   expect(() => numberPattern("^(a+)+$")).toThrow();
   expect(validDate("2026-02-30")).toBe(false);
   expect(numberPattern("^INV-[0-9]+$").test("INV-123")).toBe(true);
+  // Bounded and optional quantifiers backtrack polynomially/exponentially too.
+  expect(() => numberPattern("^" + "a{0,30}".repeat(7) + "$")).toThrow();
+  expect(() => numberPattern("^" + "a?".repeat(30) + "a".repeat(30))).toThrow();
+  expect(numberPattern("^INV-\\d{4}-\\d{3}$").test("INV-2026-001")).toBe(true);
 });
 it("cycle moves across year boundary and does not pay before cutoff", () => {
   const b = seed().buyers[0];

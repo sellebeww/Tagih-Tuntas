@@ -1,14 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import {
-  DB,
-  Invoice,
-  Buyer,
-  Profile,
-  Doc,
-  Contact,
-  Category,
-} from "@/core/model";
+import { DB, Invoice, Buyer, Profile, Doc, Contact } from "@/core/model";
 import {
   audit,
   comparison,
@@ -193,17 +185,21 @@ export default function Home() {
       <aside className="sidebar">
         <div className="brand">
           Tagih<span>Tuntas</span>
-          <span style={{ fontSize: 14 }}> ↗</span>
+          <span aria-hidden="true" style={{ fontSize: 14 }}>
+            {" "}
+            ↗
+          </span>
         </div>
         <div className="subtitle">Piutang lebih jelas</div>
         <nav className="nav">
           {menus.map((x, n) => (
             <button
               className={page === x ? "active" : ""}
+              aria-current={page === x ? "page" : undefined}
               key={x}
               onClick={() => setPage(x)}
             >
-              <span style={{ marginRight: 11 }}>
+              <span aria-hidden="true" style={{ marginRight: 11 }}>
                 {["◫", "☷", "▦", "⇧", "◷", "◇"][n]}
               </span>
               {x}
