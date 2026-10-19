@@ -29,8 +29,15 @@ export function completeness(i: Invoice, b: Buyer) {
   const p = b.profile;
   const missing = p.required.filter((k) => !i.docs.some((d) => d.kind === k));
   const invalid: string[] = [];
-  const pattern = numberPattern(p.numberPattern);
-  if (!pattern.test(i.number)) invalid.push("Nomor invoice tidak sesuai pola");
+  // A profile saved under older, looser rules must not crash every read.
+  let pattern: RegExp | undefined;
+  try {
+    pattern = numberPattern(p.numberPattern);
+  } catch {
+    invalid.push("Pola nomor di profil pelanggan tidak valid; perbarui profil");
+  }
+  if (pattern && !pattern.test(i.number))
+    invalid.push("Nomor invoice tidak sesuai pola");
   for (const k of p.required) {
     const docs = i.docs.filter((d) => d.kind === k);
     if (
