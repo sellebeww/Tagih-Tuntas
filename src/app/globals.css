@@ -286,7 +286,22 @@ tbody tr:hover {
   color: var(--green);
   text-decoration: underline;
   text-align: left;
-  padding: 0;
+  padding: 5px 0; /* 24px minimum target height (WCAG 2.5.8) */
+}
+.skip {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 20;
+  background: white;
+  padding: 10px 14px;
+  border-radius: 7px;
+}
+.skip:focus {
+  top: 12px;
+}
+.main:focus {
+  outline: none; /* skip-link target, not an interactive control */
 }
 .notice {
   position: sticky;

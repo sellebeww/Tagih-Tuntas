@@ -182,6 +182,9 @@ export default function Home() {
   );
   return (
     <div className="shell">
+      <a className="skip" href="#konten">
+        Lewati ke konten utama
+      </a>
       <aside className="sidebar">
         <div className="brand">
           Tagih<span>Tuntas</span>
@@ -214,7 +217,7 @@ export default function Home() {
           Versi MVP / 01
         </footer>
       </aside>
-      <main className="main">
+      <main className="main" id="konten" tabIndex={-1}>
         <header className="top">
           <span className="overline">Ruang kerja vendor / {page}</span>
           <select
