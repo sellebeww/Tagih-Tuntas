@@ -1,0 +1,4 @@
+pelanggan,nilai,tanggal_terbit,jatuh_tempo,tanggal_bayar,penyebab,menit_staf
+PT Contoh Administratif,15000000,2026-07-01,2026-08-01,2026-09-15,dokumen_kurang,45
+PT Contoh Likuiditas,30000000,2026-07-01,2026-08-01,,kemungkinan_likuiditas,90
+"PT Contoh, Sengketa",10000000,2026-07-01,2026-08-01,,nominal_dipersoalkan,60
