@@ -9,7 +9,9 @@ Repo Git dibuat pada audit ini (tanpa remote). Baseline sebelum perubahan: commi
 | `7b784bf` | Tautan "Lewati ke konten utama", target tombol tabel 24px |
 | `eb8400a` | `.gitignore`: `.DS_Store`, `*.log` (pesan commit juga menyebut docs; README ada di commit berikut) |
 | `b97e77c` | README: dokumentasi `TAGIH_DATA_FILE` |
-| berikutnya | Dokumen `docs/audit/` |
+| `c6919f0` | Dokumen `docs/audit/` |
+| `ba54f72` | Perbaikan hasil red-team: `{n}`/escape diizinkan, pola lama tidak menyebabkan crash, `connect-src` dev |
+| berikutnya | Pembaruan dokumen setelah red-team |
 
 ## Perintah
 

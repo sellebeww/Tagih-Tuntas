@@ -13,7 +13,7 @@ Branch: `chore/audit-20261019` · Baseline: `9f40c36` (`main`)
 - [x] Fase 6: UI/UX & a11y (kontras, fokus, aria-current, skip link, target 24px, responsif 4 viewport, konsol bersih)
 - [x] Fase 7: dokumentasi (README `TAGIH_DATA_FILE`, `docs/audit/*`)
 - [x] Fase 8: verifikasi kerja + clone bersih
-- [x] Red-team pass (lihat bagian di bawah)
+- [x] Red-team pass: 3 temuan, semua diperbaiki dan diverifikasi ulang (`ba54f72`; lihat AUDIT_REPORT §9)
 
 ## Sedang dikerjakan
 

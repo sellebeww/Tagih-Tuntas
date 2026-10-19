@@ -44,7 +44,7 @@ Sudah konsisten: komponen `PascalCase` (`Home`, `BuyerPage`, `Layout`), fungsi/v
 
 | Keparahan | Lokasi | Temuan | Status |
 | --- | --- | --- | --- |
-| Sedang | `src/core/validation.ts:24` | Pola nomor invoice hanya membatasi `+`/`*`. Kuantifier `{m,n}` dan `?` lolos. Bukti: `^a{0,30}…$` ×7 terhadap 60 karakter = **22,4 detik** (×5 = 0,17 dtk, ×6 = 2,1 dtk). Pola disimpan di profil lalu dievaluasi pada setiap `refresh`/`completeness` → proses Node satu-satunya macet berulang sampai `db.json` diedit tangan. | **Diperbaiki** [TERVERIFIKASI]: kini `+ * ? {` dihitung bersama (maks. 2); tes regresi `tests/regression.test.ts` menolak `a{0,30}`×7 dan `a?`×30, menerima `^INV-\d{4}-\d{3}$`. Data lokal hanya memakai `^INV-` (diperiksa, tidak rusak). |
+| Sedang | `src/core/validation.ts:24` | Pola nomor invoice hanya membatasi `+`/`*`. Kuantifier `{m,n}` dan `?` lolos. Bukti: `^a{0,30}…$` ×7 terhadap 60 karakter = **22,4 detik** (×5 = 0,17 dtk, ×6 = 2,1 dtk). Pola disimpan di profil lalu dievaluasi pada setiap `refresh`/`completeness` → proses Node satu-satunya macet berulang sampai `db.json` diedit tangan. | **Diperbaiki** [TERVERIFIKASI]: kuantifier yang bisa backtrack (`+ * ?` dan rentang `{m,}`/`{m,n}`) dihitung bersama, maks. 2; jumlah tetap `{n}` dan literal escape (`\+`, `\{`) tidak dihitung, sehingga format seperti `^\d{3}/INV/\d{2}/\d{4}$` tetap valid. Kasus terburuk 2 kuantifier pada 100 karakter terukur < 2 ms. Profil lama yang polanya kini ditolak tidak membuat aplikasi crash: `completeness` menandainya "pola perlu diperbarui" tanpa menjalankan regex. Tes regresi di `tests/regression.test.ts`. Data lokal hanya memakai `^INV-`. |
 | Rendah | `next.config.ts` | Tidak ada `Content-Security-Policy` dan `Permissions-Policy`. | **Diperbaiki** [TERVERIFIKASI]: header ada di respons; tidak ada pelanggaran CSP di konsol pada build produksi maupun `next dev`. |
 | Rendah | `next.config.ts` | Header `X-Powered-By: Next.js` terekspos. | **Diperbaiki** [TERVERIFIKASI]: header tidak ada lagi. |
 | Rendah | `src/app/layout.tsx` | Halaman tautan pembeli tidak ditandai `noindex`. | **Diperbaiki**: `robots: { index: false, follow: false }`. |
@@ -77,12 +77,14 @@ Diperiksa otomatis (Playwright + Chrome, semua menu + detail invoice + form invo
 | `npm ci` | — | — | Lulus |
 | `npm run typecheck` | Lulus | Lulus | Lulus (sebelum dan sesudah build) |
 | `tsc --noUnusedLocals --noUnusedParameters` | 1 error | Lulus | — |
-| `npm test` (Vitest) | 43/43 | 43/43 (+3 asersi ReDoS) | 43/43 |
+| `npm test` (Vitest) | 43/43 | 44/44 (+1 tes, +6 asersi regex) | 43/43 (sebelum perbaikan red-team) |
 | `npm run format:check` | Lulus | Lulus | — |
 | `npm run build` | Lulus | Lulus | Lulus |
 | `npm run test:e2e` (Playwright, Chrome) | 6/6 | 6/6 | — (memerlukan Chrome; dijalankan di checkout kerja) |
 | `npm audit` | 0 | 0 | 0 |
 | Pemeriksaan header/konsol/overflow (skrip Playwright ad hoc) | — | Lulus prod + dev | — |
+
+**Red-team pass** (sub-agent independen): semua rasio kontras, hash commit, dan rujukan `file:baris` cocok; tidak ditemukan secret di diff dan tidak ada file yang dihapus. Tiga temuan: (1) aturan regex terlalu ketat untuk `{n}` → diperbaiki; (2) pola lama yang tersimpan bisa memicu error → diperbaiki; (3) `connect-src` dev untuk websocket HMR → ditambahkan. Ketiganya diverifikasi ulang: 44/44 tes, build, 6/6 e2e, konsol dev dan prod bersih (commit `ba54f72`).
 
 Linter: tidak ada ESLint (D5); pengganti yang dijalankan adalah `tsc` dengan pemeriksaan unused. [TIDAK DIUJI]: Safari/Firefox, pembaca layar, perangkat fisik (tidak tersedia di lingkungan ini).
 
