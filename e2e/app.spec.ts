@@ -226,3 +226,25 @@ test("document correction unblocks sending and buyer dispute keeps its reason", 
     }),
   ).toBeVisible();
 });
+test("company profile and app link to each other", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.goto("/");
+  await page.getByRole("link", { name: "← Profil perusahaan" }).click();
+  await expect(page).toHaveURL(/\/tentang$/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "bayar tuntas.",
+  );
+  const shot = page.getByRole("img", {
+    name: "Tampilan dasbor piutang TagihTuntas",
+  });
+  await shot.scrollIntoViewIfNeeded();
+  await expect
+    .poll(() => shot.evaluate((i: HTMLImageElement) => i.naturalWidth))
+    .toBeGreaterThan(0);
+  await page.getByRole("link", { name: "Buka aplikasi →" }).first().click();
+  await expect(
+    page.getByRole("heading", { name: "Setiap invoice, jelas langkahnya." }),
+  ).toBeVisible();
+  expect(errors).toEqual([]);
+});

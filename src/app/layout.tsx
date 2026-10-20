@@ -6,6 +6,7 @@ export const metadata: Metadata = {
     "Kenali hambatan invoice, lengkapi persyaratan, arahkan tindakan.",
   // Private local workspace; buyer token pages must never be indexed.
   robots: { index: false, follow: false },
+  authors: [{ name: "Vassel Goleyu" }],
 };
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

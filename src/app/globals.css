@@ -1,10 +1,12 @@
 @import "tailwindcss";
 :root {
-  --ink: #193931;
-  --muted: #5e706a; /* ≥4.5:1 on paper, white and table headers (WCAG AA) */
-  --line: #e0e8e2;
-  --green: #236247;
-  --paper: #f4f6f2;
+  --ink: #0f2350;
+  --muted: #55617c; /* ≥4.5:1 on paper, white and table headers (WCAG AA) */
+  --line: #e1e6f2;
+  --brand: #1b5ccc;
+  --navy: #103373;
+  --ok: #48a87e;
+  --paper: #f4f6fb;
 }
 * {
   box-sizing: border-box;
@@ -39,7 +41,7 @@ button:disabled {
   cursor: not-allowed;
 }
 a {
-  color: var(--green);
+  color: var(--brand);
 }
 .shell {
   display: grid;
@@ -47,8 +49,8 @@ a {
   min-height: 100vh;
 }
 .sidebar {
-  background: #123b30;
-  color: #ecf4ec;
+  background: #0d2b63;
+  color: #eef3ff;
   padding: 32px 22px;
   position: sticky;
   top: 0;
@@ -62,13 +64,43 @@ a {
   letter-spacing: -1px;
 }
 .brand span {
-  color: #c5e88d;
+  color: #7fb0ff;
+}
+.sidebar .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  text-decoration: none;
+}
+.sidebar .brand img {
+  width: 44px;
+  height: auto;
+  filter: drop-shadow(0 2px 6px #0006);
+}
+.profile-link {
+  margin-top: auto;
+  padding: 11px 14px;
+  border: 1px solid #ffffff2a;
+  border-radius: 8px;
+  color: #dce6ff;
+  text-decoration: none;
+  font-size: 13px;
+}
+.profile-link:hover {
+  background: #163f8f;
+}
+.buyer-logo {
+  display: block;
+  width: 150px;
+  height: auto;
+  margin-bottom: 26px;
 }
 .subtitle {
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #9eb7a8;
+  color: #9fb3dd;
   margin: 10px 0 40px;
 }
 .nav {
@@ -81,19 +113,19 @@ a {
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #bcd0c5;
+  color: #c3d0ee;
 }
 .nav button.active {
-  background: #315847;
+  background: #1b4fae;
   color: white;
 }
 .nav button:hover {
-  background: #254c3e;
+  background: #163f8f;
 }
 .sidebar footer {
-  margin-top: auto;
+  margin-top: 18px;
   font-size: 12px;
-  color: #a8c1b2;
+  color: #a9bbe3;
   line-height: 1.8;
 }
 .main {
@@ -101,7 +133,7 @@ a {
   min-width: 0;
   max-width: 1600px;
   width: 100%;
-  margin: auto;
+  margin: 0 auto;
 }
 .top {
   display: flex;
@@ -153,8 +185,8 @@ p {
 }
 .banner {
   padding: 13px 18px;
-  background: #eaf0de;
-  border: 1px solid #d8e3c5;
+  background: #e9f0fd;
+  border: 1px solid #cfdcf7;
   border-radius: 8px;
   font-size: 12px;
   line-height: 1.6;
@@ -204,27 +236,27 @@ th {
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--muted);
-  background: #f7f9f5;
+  background: #f6f8fd;
 }
 th,
 td {
   padding: 15px 12px;
-  border-bottom: 1px solid #edf0eb;
+  border-bottom: 1px solid #ecf0f8;
   white-space: nowrap;
 }
 td {
   font-size: 12px;
 }
 tbody tr:hover {
-  background: #fafbf8;
+  background: #f8faff;
 }
 .badge {
   display: inline-block;
   padding: 5px 8px;
   border-radius: 5px;
-  background: #edf2eb;
+  background: #eaf0fc;
   font-size: 11px;
-  color: #42634e;
+  color: #284a8c;
 }
 .badge.warn {
   background: #fff2d9;
@@ -245,7 +277,7 @@ tbody tr:hover {
 }
 .bar {
   height: 7px;
-  background: #edf1ea;
+  background: #e9eef9;
   border-radius: 10px;
   margin-top: 9px;
   overflow: hidden;
@@ -253,12 +285,12 @@ tbody tr:hover {
 .bar i {
   height: 100%;
   display: block;
-  background: #719a65;
+  background: var(--ok);
   border-radius: 10px;
 }
 .btn {
   border: 0;
-  background: var(--green);
+  background: var(--brand);
   color: white;
   padding: 11px 16px;
   border-radius: 7px;
@@ -283,7 +315,7 @@ tbody tr:hover {
 .link {
   border: 0;
   background: transparent;
-  color: var(--green);
+  color: var(--brand);
   text-decoration: underline;
   text-align: left;
   padding: 5px 0; /* 24px minimum target height (WCAG 2.5.8) */
@@ -307,7 +339,7 @@ tbody tr:hover {
   position: sticky;
   top: 10px;
   z-index: 10;
-  background: #173f31;
+  background: #0d2b63;
   color: white;
   padding: 15px 20px;
   border-radius: 8px;
@@ -331,12 +363,12 @@ label {
   gap: 7px;
   margin: 12px 0;
   font-size: 12px;
-  color: #476351;
+  color: #4a5878;
 }
 input,
 textarea,
 select {
-  border: 1px solid #d6e0d5;
+  border: 1px solid #d3dbee;
   border-radius: 6px;
   background: white;
   padding: 10px;
@@ -354,7 +386,7 @@ label.check {
   gap: 8px;
 }
 input[type="checkbox"] {
-  accent-color: var(--green);
+  accent-color: var(--brand);
 }
 .blocker {
   border-left: 3px solid #d7b971;
@@ -400,7 +432,7 @@ input[type="checkbox"] {
   grid-column: 1/-1;
 }
 code {
-  background: #eef2e9;
+  background: #edf1fa;
   padding: 2px 4px;
   font-size: 12px;
 }
@@ -442,6 +474,11 @@ code {
   .nav button {
     white-space: nowrap;
     padding: 9px;
+  }
+  .profile-link {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 12px;
   }
   .main {
     padding: 20px 14px;
@@ -491,18 +528,18 @@ code {
   margin: 20px 0;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #f7faf4;
+  background: #f6f9ff;
 }
 .card .row {
   flex-wrap: wrap;
 }
 :focus-visible {
-  outline: 3px solid var(--green);
+  outline: 3px solid var(--brand);
 }
 /* The light ring only has enough contrast on the dark surfaces. */
 .sidebar :focus-visible,
 .notice :focus-visible {
-  outline-color: #a5c77a;
+  outline-color: #8fc0ff;
 }
 form button {
   margin-top: 6px;

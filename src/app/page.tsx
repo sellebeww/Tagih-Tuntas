@@ -186,13 +186,12 @@ export default function Home() {
         Lewati ke konten utama
       </a>
       <aside className="sidebar">
-        <div className="brand">
-          Tagih<span>Tuntas</span>
-          <span aria-hidden="true" style={{ fontSize: 14 }}>
-            {" "}
-            ↗
-          </span>
-        </div>
+        <a className="brand" href="/tentang" title="Profil perusahaan">
+          <img src="/logo-mark.png" alt="" width={44} height={28} />
+          <b>
+            Tagih<span>Tuntas</span>
+          </b>
+        </a>
         <div className="subtitle">Piutang lebih jelas</div>
         <nav className="nav">
           {menus.map((x, n) => (
@@ -209,12 +208,16 @@ export default function Home() {
             </button>
           ))}
         </nav>
+        <a className="profile-link" href="/tentang">
+          ← Profil perusahaan
+        </a>
         <footer>
           <strong>Ruang kerja demo</strong>
           <br />
           Metadata saja · tanpa dana
           <br />
           Versi MVP / 01
+          <br />© 2026 Vassel Goleyu
         </footer>
       </aside>
       <main className="main" id="konten" tabIndex={-1}>
@@ -358,7 +361,7 @@ export default function Home() {
             </div>
             <section className="card">
               <div className="row">
-                <h2>Daftar invoice</h2>
+                <h2 style={{ marginRight: "auto" }}>Daftar invoice</h2>
                 <button
                   className="btn"
                   onClick={() => setShowCreate(!showCreate)}

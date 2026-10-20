@@ -31,7 +31,8 @@ Tidak ada autentikasi vendor/admin: pemilih vendor adalah konteks kerja demo, bu
 - `src/core/engine.ts`: fungsi murni kelengkapan, siklus, diagnosis, perutean, transisi, validasi token, kadensi, audit, evaluasi, metrik. Tidak bergantung UI atau database.
 - `src/core/csv.ts`: parser CSV dengan quoted fields, validasi tanggal/nominal/kategori.
 - `src/server/store.ts`: JSON lokal, mutasi, token acak 256-bit, aktivitas.
-- `src/app`: dasbor, antrean, profil, detail, audit, evaluasi, skenario; `/beli/[token]` adalah tampilan pembeli.
+- `src/app`: dasbor, antrean, profil, detail, audit, evaluasi, skenario; `/beli/[token]` adalah tampilan pembeli; `/tentang` adalah profil perusahaan (tautan dua arah dengan aplikasi).
+- `public/`: logo transparan (`logo.png`, `logo-mark.png`) dan tangkapan layar dasbor untuk profil perusahaan.
 - `tests`: unit test dan integrasi penyimpanan terisolasi pada direktori temporer.
 - `examples/audit.csv`: contoh impor.
 

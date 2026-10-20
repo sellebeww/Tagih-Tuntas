@@ -69,7 +69,13 @@ export default function BuyerPage({
   }
   return (
     <main className="buyer">
-      <div className="brand">TagihTuntas ↗</div>
+      <img
+        className="buyer-logo"
+        src="/logo.png"
+        alt="TagihTuntas"
+        width={150}
+        height={102}
+      />
       <section className="card">
         {done ? (
           <>
