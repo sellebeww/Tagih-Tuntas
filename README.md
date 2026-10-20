@@ -16,6 +16,17 @@ MVP lokal pengelolaan hambatan piutang B2B Indonesia. Next.js App Router, TypeSc
 
 <img src="docs/screenshots/4-tampilan-pembeli.png" alt="Tampilan pembeli" width="260">
 
+## Fitur penting
+
+| | |
+| --- | --- |
+| **Gerbang pengiriman**: invoice ditolak kirim sampai dokumen cocok dengan syarat pelanggan.<br>![Gerbang pengiriman](docs/screenshots/9-gerbang-kirim.png) | **Profil syarat bayar**: termin, cut-off, dan tanggal bayar tiap pelanggan menentukan estimasi siklus.<br>![Pelanggan](docs/screenshots/6-pelanggan.png) |
+| **Audit invoice lama**: impor CSV historis, lihat penyebab keterlambatan dan potensi hari yang bisa dihemat.<br>![Audit](docs/screenshots/7-audit.png) | **Evaluasi**: bandingkan proses sekarang dengan cek kelengkapan dan perutean, tanpa janji hasil.<br>![Evaluasi](docs/screenshots/8-evaluasi.png) |
+
+**Responsif di ponsel**: seluruh menu tetap dapat dipakai pada layar kecil.
+
+<img src="docs/screenshots/10-mobile.png" alt="Tampilan mobile" width="260">
+
 ## Menjalankan
 
 Prasyarat Node.js 22.12+ dan npm. Dari direktori proyek, instalasi pertama sekaligus menjalankan:
