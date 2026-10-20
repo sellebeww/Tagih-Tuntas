@@ -1,6 +1,31 @@
 # TagihTuntas
 
+<p align="center"><img src="public/logo.png" alt="TagihTuntas" width="220"></p>
+
 MVP lokal pengelolaan hambatan piutang B2B Indonesia. Next.js App Router, TypeScript, Tailwind, JSON lokal. Tidak memegang dana, tidak memberi pembiayaan, tidak mengirim pesan otomatis, dan tidak terintegrasi dengan bank, akuntansi, atau e-Faktur.
+
+
+## Tampilan aplikasi
+
+| | |
+| --- | --- |
+| **Dasbor piutang**: lihat di mana invoice tersangkut dan siapa penanggung jawabnya.<br>![Dasbor](docs/screenshots/1-dasbor.png) | **Antrean kerja**: hambatan diurutkan berdasarkan nilai, umur, dan peluang selesai.<br>![Antrean](docs/screenshots/2-antrean.png) |
+| **Detail invoice**: dokumen dicocokkan dengan syarat pelanggan, hambatan diarahkan ke pemiliknya.<br>![Detail invoice](docs/screenshots/3-detail-invoice.png) | **Profil perusahaan** (`/tentang`): halaman perkenalan dengan animasi.<br>![Profil perusahaan](docs/screenshots/5-profil-perusahaan.png) |
+
+**Tampilan pembeli** (`/beli/[token]`): tautan sekali pakai tanpa akun, hanya untuk satu tindakan.
+
+<img src="docs/screenshots/4-tampilan-pembeli.png" alt="Tampilan pembeli" width="260">
+
+## Fitur penting
+
+| | |
+| --- | --- |
+| **Gerbang pengiriman**: invoice ditolak kirim sampai dokumen cocok dengan syarat pelanggan.<br>![Gerbang pengiriman](docs/screenshots/9-gerbang-kirim.png) | **Profil syarat bayar**: termin, cut-off, dan tanggal bayar tiap pelanggan menentukan estimasi siklus.<br>![Pelanggan](docs/screenshots/6-pelanggan.png) |
+| **Audit invoice lama**: impor CSV historis, lihat penyebab keterlambatan dan potensi hari yang bisa dihemat.<br>![Audit](docs/screenshots/7-audit.png) | **Evaluasi**: bandingkan proses sekarang dengan cek kelengkapan dan perutean, tanpa janji hasil.<br>![Evaluasi](docs/screenshots/8-evaluasi.png) |
+
+**Responsif di ponsel**: seluruh menu tetap dapat dipakai pada layar kecil.
+
+<img src="docs/screenshots/10-mobile.png" alt="Tampilan mobile" width="260">
 
 ## Menjalankan
 
@@ -10,7 +35,7 @@ Prasyarat Node.js 22.12+ dan npm. Dari direktori proyek, instalasi pertama sekal
 npm install && npm start
 ```
 
-Selanjutnya cukup `npm start`, buka http://127.0.0.1:3000. Server terikat loopback. Data dibuat otomatis pada akses pertama di `data/db.json`, tetap ada setelah restart. Menu **Skenario uji → Reset seluruh data demo** menghapus perubahan dan impor setelah konfirmasi.
+Selanjutnya cukup `npm start`, buka http://127.0.0.1:3000. Server terikat loopback. Data dibuat otomatis pada akses pertama di `data/db.json`, tetap ada setelah restart. Variabel lingkungan opsional `TAGIH_DATA_FILE` mengganti lokasi berkas data (dipakai tes browser agar tidak menyentuh data lokal); tidak ada variabel rahasia. Menu **Skenario uji → Reset seluruh data demo** menghapus perubahan dan impor setelah konfirmasi.
 
 ```sh
 npm test             # tes inti dan integrasi penyimpanan
@@ -31,7 +56,8 @@ Tidak ada autentikasi vendor/admin: pemilih vendor adalah konteks kerja demo, bu
 - `src/core/engine.ts`: fungsi murni kelengkapan, siklus, diagnosis, perutean, transisi, validasi token, kadensi, audit, evaluasi, metrik. Tidak bergantung UI atau database.
 - `src/core/csv.ts`: parser CSV dengan quoted fields, validasi tanggal/nominal/kategori.
 - `src/server/store.ts`: JSON lokal, mutasi, token acak 256-bit, aktivitas.
-- `src/app`: dasbor, antrean, profil, detail, audit, evaluasi, skenario; `/beli/[token]` adalah tampilan pembeli.
+- `src/app`: dasbor, antrean, profil, detail, audit, evaluasi, skenario; `/beli/[token]` adalah tampilan pembeli; `/tentang` adalah profil perusahaan (tautan dua arah dengan aplikasi).
+- `public/`: logo transparan (`logo.png`, `logo-mark.png`) dan tangkapan layar dasbor untuk profil perusahaan.
 - `tests`: unit test dan integrasi penyimpanan terisolasi pada direktori temporer.
 - `examples/audit.csv`: contoh impor.
 

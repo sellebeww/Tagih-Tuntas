@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { seed } from "../src/core/seed";
 import {
+  completeness,
   cycle,
   diagnose,
   validateToken,
@@ -221,6 +222,27 @@ it("regex and date validation reject dangerous inputs", () => {
   expect(() => numberPattern("^(a+)+$")).toThrow();
   expect(validDate("2026-02-30")).toBe(false);
   expect(numberPattern("^INV-[0-9]+$").test("INV-123")).toBe(true);
+  // Bounded and optional quantifiers backtrack polynomially/exponentially too.
+  expect(() => numberPattern("^" + "a{0,30}".repeat(7) + "$")).toThrow();
+  expect(() => numberPattern("^" + "a?".repeat(30) + "a".repeat(30))).toThrow();
+  expect(numberPattern("^INV-\\d{4}-\\d{3}$").test("INV-2026-001")).toBe(true);
+  // Fixed counts and escaped literals do not backtrack; common formats stay valid.
+  expect(
+    numberPattern("^\\d{3}/INV/\\d{2}/\\d{4}$").test("001/INV/10/2026"),
+  ).toBe(true);
+  expect(numberPattern("^INV-\\d{4}-\\d{2}-\\d+$").test("INV-2026-10-7")).toBe(
+    true,
+  );
+  expect(() => numberPattern("^a{0,9}b?c*$")).toThrow();
+});
+it("a stored pattern that is no longer accepted does not crash completeness", () => {
+  const db = seed();
+  const b = db.buyers[0];
+  const i = db.invoices.find((x) => x.buyerId === b.id)!;
+  b.profile.numberPattern = "^" + "a{0,30}".repeat(7) + "$";
+  expect(completeness(i, b).invalid).toContain(
+    "Pola nomor di profil pelanggan tidak valid; perbarui profil",
+  );
 });
 it("cycle moves across year boundary and does not pay before cutoff", () => {
   const b = seed().buyers[0];

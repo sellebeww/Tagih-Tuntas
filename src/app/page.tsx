@@ -1,14 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import {
-  DB,
-  Invoice,
-  Buyer,
-  Profile,
-  Doc,
-  Contact,
-  Category,
-} from "@/core/model";
+import { DB, Invoice, Buyer, Profile, Doc, Contact } from "@/core/model";
 import {
   audit,
   comparison,
@@ -190,35 +182,45 @@ export default function Home() {
   );
   return (
     <div className="shell">
+      <a className="skip" href="#konten">
+        Lewati ke konten utama
+      </a>
       <aside className="sidebar">
-        <div className="brand">
-          Tagih<span>Tuntas</span>
-          <span style={{ fontSize: 14 }}> ↗</span>
-        </div>
+        <a className="brand" href="/tentang" title="Profil perusahaan">
+          <img src="/logo-mark.png" alt="" width={44} height={28} />
+          <b>
+            Tagih<span>Tuntas</span>
+          </b>
+        </a>
         <div className="subtitle">Piutang lebih jelas</div>
         <nav className="nav">
           {menus.map((x, n) => (
             <button
               className={page === x ? "active" : ""}
+              aria-current={page === x ? "page" : undefined}
               key={x}
               onClick={() => setPage(x)}
             >
-              <span style={{ marginRight: 11 }}>
+              <span aria-hidden="true" style={{ marginRight: 11 }}>
                 {["◫", "☷", "▦", "⇧", "◷", "◇"][n]}
               </span>
               {x}
             </button>
           ))}
         </nav>
+        <a className="profile-link" href="/tentang">
+          ← Profil perusahaan
+        </a>
         <footer>
           <strong>Ruang kerja demo</strong>
           <br />
           Metadata saja · tanpa dana
           <br />
           Versi MVP / 01
+          <br />© 2026 Vassel Goleyu
         </footer>
       </aside>
-      <main className="main">
+      <main className="main" id="konten" tabIndex={-1}>
         <header className="top">
           <span className="overline">Ruang kerja vendor / {page}</span>
           <select
@@ -359,7 +361,7 @@ export default function Home() {
             </div>
             <section className="card">
               <div className="row">
-                <h2>Daftar invoice</h2>
+                <h2 style={{ marginRight: "auto" }}>Daftar invoice</h2>
                 <button
                   className="btn"
                   onClick={() => setShowCreate(!showCreate)}

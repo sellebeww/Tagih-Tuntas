@@ -21,7 +21,9 @@ export function numberPattern(value: unknown): RegExp {
   if (
     /[()|]/.test(pattern) ||
     /\\[1-9]/.test(pattern) ||
-    (pattern.match(/[+*]/g) || []).length > 2
+    // ? and {m,n} backtrack like + and *; stacking them hangs the single Node process.
+    // Escaped literals and fixed counts {n} do not backtrack, so they are not counted.
+    (pattern.replace(/\\./g, "").match(/[+*?]|\{\d*,/g) || []).length > 2
   )
     throw Error(
       "Pola nomor terlalu kompleks. Gunakan awalan dan kelas karakter sederhana, tanpa grup atau alternatif.",
