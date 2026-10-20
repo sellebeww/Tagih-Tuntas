@@ -1,6 +1,20 @@
 # TagihTuntas
 
+<p align="center"><img src="public/logo.png" alt="TagihTuntas" width="220"></p>
+
 MVP lokal pengelolaan hambatan piutang B2B Indonesia. Next.js App Router, TypeScript, Tailwind, JSON lokal. Tidak memegang dana, tidak memberi pembiayaan, tidak mengirim pesan otomatis, dan tidak terintegrasi dengan bank, akuntansi, atau e-Faktur.
+
+
+## Tampilan aplikasi
+
+| | |
+| --- | --- |
+| **Dasbor piutang**: lihat di mana invoice tersangkut dan siapa penanggung jawabnya.<br>![Dasbor](docs/screenshots/1-dasbor.png) | **Antrean kerja**: hambatan diurutkan berdasarkan nilai, umur, dan peluang selesai.<br>![Antrean](docs/screenshots/2-antrean.png) |
+| **Detail invoice**: dokumen dicocokkan dengan syarat pelanggan, hambatan diarahkan ke pemiliknya.<br>![Detail invoice](docs/screenshots/3-detail-invoice.png) | **Profil perusahaan** (`/tentang`): halaman perkenalan dengan animasi.<br>![Profil perusahaan](docs/screenshots/5-profil-perusahaan.png) |
+
+**Tampilan pembeli** (`/beli/[token]`): tautan sekali pakai tanpa akun, hanya untuk satu tindakan.
+
+<img src="docs/screenshots/4-tampilan-pembeli.png" alt="Tampilan pembeli" width="260">
 
 ## Menjalankan
 
