@@ -1,9 +1,60 @@
+import { createHmac, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 export const privateHeaders = {
   "Cache-Control": "no-store, max-age=0",
   "Referrer-Policy": "no-referrer",
   "X-Content-Type-Options": "nosniff",
 };
+const sessionName = "tt_session";
+const sessionValue = () =>
+  createHmac("sha256", process.env.APP_PASSWORD!)
+    .update("tagih-tuntas-session")
+    .digest("hex");
+const same = (a: string, b: string) =>
+  a.length === b.length && timingSafeEqual(Buffer.from(a), Buffer.from(b));
+export function checkPassword(password: unknown) {
+  const expected = process.env.APP_PASSWORD;
+  return (
+    !!expected &&
+    typeof password === "string" &&
+    same(
+      createHmac("sha256", "login").update(password).digest("hex"),
+      createHmac("sha256", "login").update(expected).digest("hex"),
+    )
+  );
+}
+export function sessionCookie(secure: boolean) {
+  return {
+    name: sessionName,
+    value: sessionValue(),
+    httpOnly: true,
+    sameSite: "lax" as const,
+    secure,
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7,
+  };
+}
+// Without APP_PASSWORD the app stays loopback-only; with it, the vendor side
+// needs the session cookie and buyer links rely on their own token.
+export function requireVendor(req: Request) {
+  if (!process.env.APP_PASSWORD) return requireLocalHost(req);
+  const cookie = (req.headers.get("cookie") || "")
+    .split(/;\s*/)
+    .find((c) => c.startsWith(`${sessionName}=`));
+  if (!cookie || !same(cookie.slice(sessionName.length + 1), sessionValue()))
+    throw new HttpError("Masuk dengan kata sandi untuk membuka aplikasi.", 401);
+}
+export function requireBuyer(req: Request) {
+  if (!process.env.APP_PASSWORD) requireLocalHost(req);
+}
+export class HttpError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+  ) {
+    super(message);
+  }
+}
 export function requireLocalHost(req: Request) {
   const host = req.headers.get("host") || new URL(req.url).host;
   if (
@@ -11,12 +62,11 @@ export function requireLocalHost(req: Request) {
       new URL(`http://${host}`).hostname,
     )
   )
-    throw Error("MVP ini hanya menerima akses localhost.");
+    throw Error("Aplikasi ini hanya dapat diakses dari localhost.");
 }
 export async function readMutation(
   req: Request,
 ): Promise<Record<string, unknown>> {
-  requireLocalHost(req);
   const origin = req.headers.get("origin");
   if (
     req.headers.get("sec-fetch-site") === "cross-site" ||
@@ -65,6 +115,7 @@ export async function readMutation(
   return data as Record<string, unknown>;
 }
 export function failure(e: unknown, status = 400) {
+  if (e instanceof HttpError) status = e.status;
   return NextResponse.json(
     { error: e instanceof Error ? e.message : "Permintaan gagal." },
     { status, headers: privateHeaders },

@@ -13,7 +13,13 @@ import {
 } from "../src/core/engine";
 import { parseCSV, exportCSV } from "../src/core/csv";
 import { numberPattern, validDate } from "../src/core/validation";
-import { readMutation } from "../src/server/http";
+import {
+  readMutation,
+  requireVendor,
+  requireBuyer,
+  checkPassword,
+  sessionCookie,
+} from "../src/server/http";
 let store: typeof import("../src/server/store");
 const directory = mkdtempSync(join(tmpdir(), "tagih-regression-"));
 beforeEach(async () => {
@@ -347,17 +353,27 @@ it("cycle diagnosis uses submission evidence, never the manual cause label", () 
     "terlewat_siklus_bayar",
   );
 });
-it("untrusted Host cannot access the local mutation API", async () => {
-  await expect(
-    readMutation(
-      new Request("http://attacker.invalid/api/data", {
-        method: "POST",
-        headers: {
-          host: "attacker.invalid",
-          "content-type": "application/json",
-        },
-        body: "{}",
-      }),
-    ),
-  ).rejects.toThrow("localhost");
+const foreign = () =>
+  new Request("https://app.example/api/data", {
+    headers: { host: "app.example" },
+  });
+it("untrusted Host cannot access the vendor API without a password", () => {
+  expect(() => requireVendor(foreign())).toThrow("localhost");
+  expect(() => requireBuyer(foreign())).toThrow("localhost");
+});
+it("with APP_PASSWORD the vendor API needs the session cookie; buyer links stay public", () => {
+  process.env.APP_PASSWORD = "rahasia";
+  try {
+    expect(() => requireVendor(foreign())).toThrow("kata sandi");
+    expect(checkPassword("salah")).toBe(false);
+    expect(checkPassword("rahasia")).toBe(true);
+    const { name, value } = sessionCookie(true);
+    const authed = new Request("https://app.example/api/data", {
+      headers: { cookie: `${name}=${value}` },
+    });
+    expect(() => requireVendor(authed)).not.toThrow();
+    expect(() => requireBuyer(foreign())).not.toThrow();
+  } finally {
+    delete process.env.APP_PASSWORD;
+  }
 });

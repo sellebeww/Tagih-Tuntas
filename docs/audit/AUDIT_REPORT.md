@@ -50,7 +50,7 @@ Sudah konsisten: komponen `PascalCase` (`Home`, `BuyerPage`, `Layout`), fungsi/v
 | Rendah | `src/app/layout.tsx` | Halaman tautan pembeli tidak ditandai `noindex`. | **Diperbaiki**: `robots: { index: false, follow: false }`. |
 | Info | `src/server/http.ts:67` | `failure()` meneruskan `e.message` mentah; error sistem berkas bisa menampilkan path lokal. | Tidak diubah: hanya terlihat di loopback oleh operator sendiri. |
 | Info | `src/server/store.ts:429` | Pencarian token memakai `===` (bukan constant-time). | Tidak diubah: token acak 256-bit, akses lokal; serangan timing tidak praktis. |
-| Info | Desain | Tanpa autentikasi vendor; aksi `reset` tidak terikat vendor. | Batas MVP yang sudah didokumentasikan sebelum data nyata/deploy. |
+| Info | Desain | Tanpa autentikasi vendor; aksi `reset` tidak terikat vendor. | Batas aplikasi yang sudah didokumentasikan sebelum data nyata/deploy. |
 | Info | Repo | Pemindaian secret (pola API key/token/private key/connection string/webhook) di seluruh berkas kerja. | Tidak ditemukan; satu-satunya hasil adalah fixture tes `"secret"` (`tests/core.test.ts:116`). Riwayat Git tidak relevan (repo baru dibuat). Tidak ada `.env`. |
 | Info | Dependensi | `npm audit` | 0 kerentanan (baseline dan clone bersih). Lockfile ter-commit; tidak ada rentang `*`/`latest`. |
 | Info | Repo | Pencarian teks instruksi tertanam (prompt injection) | Tidak ditemukan. |
@@ -90,7 +90,7 @@ Linter: tidak ada ESLint (D5); pengganti yang dijalankan adalah `tsc` dengan pem
 
 ## 10. Masalah tersisa & saran lanjutan (urut prioritas)
 
-1. **Autentikasi/otorisasi + backup** sebelum data pelanggan nyata atau akses non-loopback.
+1. **Autentikasi/otorisasi + backup** sebelum data pelanggan nyata. Mode hosting hanya memakai satu kata sandi bersama (lihat README).
 2. Tambah ESLint (`eslint` + `eslint-config-next`) dan jalankan di pre-commit/CI.
 3. Putuskan Tailwind: hapus (≈ hanya preflight) atau mulai pakai utilitasnya.
 4. Pecah `src/app/page.tsx` (≈1.740 baris) per halaman untuk keterbacaan.

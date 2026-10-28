@@ -2,7 +2,7 @@
 
 <p align="center"><img src="public/logo.png" alt="Tagih Tuntas" width="220"></p>
 
-MVP lokal untuk mengelola hambatan piutang B2B Indonesia: memeriksa kelengkapan dokumen sebelum invoice dikirim, memetakan penyebab keterlambatan, dan mengarahkan tindak lanjut ke pihak yang tepat. Dibangun dengan Next.js (App Router), TypeScript, dan penyimpanan JSON lokal.
+Aplikasi lokal untuk mengelola hambatan piutang B2B Indonesia: memeriksa kelengkapan dokumen sebelum invoice dikirim, memetakan penyebab keterlambatan, dan mengarahkan tindak lanjut ke pihak yang tepat. Dibangun dengan Next.js (App Router), TypeScript, dan penyimpanan JSON lokal.
 
 Tidak memegang dana, tidak memberi pembiayaan, tidak mengirim pesan otomatis, dan tidak terintegrasi dengan bank, akuntansi, atau e-Faktur. Semua data seed fiktif.
 
@@ -30,6 +30,14 @@ npm install && npm start
 Buka http://127.0.0.1:3000 (profil perusahaan) atau http://127.0.0.1:3000/aplikasi (aplikasi). Server terikat loopback. Data dibuat otomatis di `data/db.json` (diabaikan Git). Menu **Skenario uji → Reset seluruh data demo** mengembalikan data awal.
 
 Variabel lingkungan opsional: `TAGIH_DATA_FILE` mengganti lokasi berkas data. Tidak ada variabel rahasia.
+
+## Deploy ke Vercel
+
+1. Impor repo di Vercel, lalu tambahkan **Upstash Redis** lewat Marketplace (mengisi `KV_REST_API_URL` dan `KV_REST_API_TOKEN`).
+2. Tambahkan variabel `APP_PASSWORD` (kata sandi untuk membuka `/aplikasi`).
+3. Deploy. Seluruh data tersimpan sebagai satu kunci di Redis dan dibuat otomatis pada akses pertama.
+
+Tanpa `APP_PASSWORD`, API tetap hanya menerima localhost (aman secara bawaan). Tautan pembeli (`/beli/[token]`) tetap tanpa login, dilindungi token sekali pakai. Lihat [.env.example](.env.example).
 
 | Perintah | Fungsi |
 | --- | --- |
@@ -69,8 +77,8 @@ Pada data seed, administratif hanya 42% hari-invoice; sisanya sengketa, likuidit
 
 ## Batasan
 
-- **Tidak ada autentikasi.** Pemilih vendor hanya konteks kerja demo, bukan batas keamanan; API menolak host selain localhost. Jangan diekspos ke internet atau dipakai untuk data pelanggan nyata tanpa autentikasi, otorisasi per vendor, dan penyimpanan yang sesuai.
-- JSON ditulis atomik untuk **satu proses**; tidak cocok untuk banyak instance atau hosting serverless (mis. Vercel). Halaman profil perusahaan saja yang dapat dideploy tanpa perubahan.
+- **Autentikasi hanya satu kata sandi bersama**, tanpa pembatasan percobaan masuk dan tanpa otorisasi per vendor: siapa pun yang masuk dapat membaca semua vendor. Cukup untuk demo, bukan untuk data pelanggan nyata. Tanpa `APP_PASSWORD`, API hanya menerima localhost.
+- Data satu dokumen JSON (berkas lokal atau satu kunci Redis); penulis bersamaan berlaku yang terakhir menang. Tidak ada backup otomatis.
 - Metadata dokumen diisi manual: tanpa OCR, tanda tangan digital, pembayaran, atau integrasi eksternal. Kontak hanya metadata kanal.
 - Diuji di Chrome desktop dan viewport 390×844; Safari, Firefox, dan perangkat fisik belum diuji.
 

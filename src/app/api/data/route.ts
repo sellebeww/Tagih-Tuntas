@@ -1,21 +1,21 @@
 import { NextResponse } from "next/server";
-import { read, mutate } from "@/server/store";
+import { read, mutate, withDB } from "@/server/store";
 import {
   readMutation,
   privateHeaders,
   failure,
-  requireLocalHost,
+  requireVendor,
 } from "@/server/http";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export async function GET(req: Request) {
   try {
-    requireLocalHost(req);
+    requireVendor(req);
   } catch (e) {
     return failure(e, 403);
   }
   try {
-    const db = read();
+    const db = await withDB(read);
     return NextResponse.json(
       { ...db, links: db.links.map((l) => ({ ...l, token: "" })) },
       { headers: privateHeaders },
@@ -23,7 +23,7 @@ export async function GET(req: Request) {
   } catch {
     return failure(
       Error(
-        "Data lokal tidak dapat dibaca. Periksa berkas data/db.json tanpa menghapusnya.",
+        "Data tidak dapat dibaca. Periksa penyimpanan data tanpa menghapusnya.",
       ),
       500,
     );
@@ -31,7 +31,9 @@ export async function GET(req: Request) {
 }
 export async function POST(req: Request) {
   try {
-    return NextResponse.json(mutate(await readMutation(req)), {
+    requireVendor(req);
+    const input = await readMutation(req);
+    return NextResponse.json(await withDB(() => mutate(input)), {
       headers: privateHeaders,
     });
   } catch (e) {

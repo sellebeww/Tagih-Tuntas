@@ -1,6 +1,6 @@
 # Model Ancaman — Tagih Tuntas (19 Oktober 2026)
 
-MVP lokal Next.js 16 (App Router) + berkas JSON (`data/db.json`), satu proses Node, terikat `127.0.0.1`. Tanpa autentikasi vendor (didokumentasikan sebagai batas MVP).
+Aplikasi lokal Next.js 16 (App Router) + berkas JSON (`data/db.json`), satu proses Node, terikat `127.0.0.1`. Secara bawaan tanpa autentikasi dan hanya menerima localhost. Mode hosting (Vercel + Redis) menambahkan kata sandi bersama `APP_PASSWORD`, cookie sesi HMAC, dan pembatasan percobaan masuk best-effort; tetap tanpa otorisasi per vendor.
 
 ## Aset
 
@@ -30,7 +30,7 @@ Browser ↔ server loopback; pembeli (tidak tepercaya, hanya pemegang token) vs 
 | 5 | XSS | React escaping, tanpa `dangerouslySetInnerHTML`; CSP | CSP **ditambahkan** |
 | 6 | Clickjacking | `X-Frame-Options: DENY` + `frame-ancestors 'none'` | Diperkuat |
 | 7 | Injeksi formula CSV saat ekspor | Prefiks apostrof + quoting | Sudah ada |
-| 8 | Server terekspos ke jaringan/internet tanpa auth | Bind loopback; peringatan README | Keputusan manual sebelum deploy |
+| 8 | Server terekspos ke jaringan/internet tanpa auth | Bind loopback; tanpa `APP_PASSWORD` API menolak host non-localhost; peringatan README | Keputusan manual sebelum deploy |
 | 9 | Kehilangan/korupsi data | Tulis atomik, mode 0600 | Backup belum ada (manual) |
 | 10 | Supply chain | Lockfile ter-commit, `npm audit` 0 | Sudah ada |
 

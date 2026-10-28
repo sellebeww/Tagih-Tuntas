@@ -24,11 +24,16 @@ const money = (n: number) =>
     currency: "IDR",
     maximumFractionDigits: 0,
   }).format(n);
+const dec = (n: number, digits = 1) =>
+  n.toLocaleString("id-ID", {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  });
 const short = (n: number) =>
   n >= 1e9
-    ? `Rp ${(n / 1e9).toFixed(2)} M`
+    ? `Rp ${dec(n / 1e9, 2)} M`
     : n >= 1e6
-      ? `Rp ${(n / 1e6).toFixed(1)} jt`
+      ? `Rp ${dec(n / 1e6)} jt`
       : money(n);
 const text = (s: string) => s.replaceAll("_", " ");
 const status = (s: string) => text(s).replace(/^./, (c) => c.toUpperCase());
@@ -55,10 +60,25 @@ export default function Home() {
     [selected, setSelected] = useState<string>(),
     [notice, setNotice] = useState(""),
     [busy, setBusy] = useState(false),
-    [search, setSearch] = useState("");
+    [search, setSearch] = useState(""),
+    [locked, setLocked] = useState(false),
+    [password, setPassword] = useState("");
+  async function login(e: React.FormEvent) {
+    e.preventDefault();
+    const r = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password }),
+    });
+    if (!r.ok) return setNotice((await r.json()).error);
+    setNotice("");
+    setLocked(false);
+    load().catch((e) => setNotice(e.message));
+  }
   async function load() {
     const version = ++loadVersion.current;
     const r = await fetch("/api/data", { cache: "no-store" });
+    if (r.status === 401) setLocked(true);
     if (!r.ok)
       throw Error(
         (await r.json().catch(() => null))?.error ||
@@ -109,7 +129,22 @@ export default function Home() {
         <b className="boot-name">
           Tagih<span>Tuntas</span>
         </b>
-        {notice ? (
+        {locked ? (
+          <form onSubmit={login}>
+            <label>
+              Kata sandi
+              <input
+                type="password"
+                autoComplete="current-password"
+                autoFocus
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </label>
+            {notice && <p role="alert">{notice}</p>}
+            <button className="btn">Masuk</button>
+          </form>
+        ) : notice ? (
           <>
             <p role="alert">{notice}</p>
             <button
@@ -567,9 +602,9 @@ export default function Home() {
                     {comparison(history, today).map((c) => (
                       <tr key={c.name}>
                         <td>{c.name}</td>
-                        <td>{c.days.toFixed(1)}</td>
+                        <td>{dec(c.days)}</td>
                         <td>{money(c.value)}</td>
-                        <td>{c.minutes.toFixed(1)}</td>
+                        <td>{dec(c.minutes)}</td>
                         <td>{money((c.minutes / 60) * config.staffHourly)}</td>
                       </tr>
                     ))}
@@ -590,13 +625,10 @@ export default function Home() {
             <section className="card">
               <h2>Pengukuran operasional</h2>
               <p>
-                Lolos lengkap pengiriman pertama:{" "}
-                {(m.firstComplete * 100).toFixed(1)}%. Waktu terbit sampai lunas
-                rata-rata:{" "}
+                Lolos lengkap pengiriman pertama: {dec(m.firstComplete * 100)}%.
+                Waktu terbit sampai lunas rata-rata:{" "}
                 {m.paid.length
-                  ? (
-                      m.paid.reduce((s, x) => s + x.days, 0) / m.paid.length
-                    ).toFixed(1)
+                  ? dec(m.paid.reduce((s, x) => s + x.days, 0) / m.paid.length)
                   : "—"}{" "}
                 hari.
               </p>
@@ -607,7 +639,7 @@ export default function Home() {
                   <p key={c}>
                     {labels[c]}:{" "}
                     {rows.length
-                      ? `${(rows.reduce((s, r) => s + r.days, 0) / rows.length).toFixed(1)} hari (${rows.length} hambatan)`
+                      ? `${dec(rows.reduce((s, r) => s + r.days, 0) / rows.length)} hari (${rows.length} hambatan)`
                       : "belum ada penyelesaian terukur"}
                   </p>
                 );
@@ -1430,7 +1462,7 @@ function Audit({
                   <td>{x.count}</td>
                   <td>{money(x.value)}</td>
                   <td>{x.invoiceDays}</td>
-                  <td>{sum ? ((x.invoiceDays / sum) * 100).toFixed(1) : 0}%</td>
+                  <td>{sum ? dec((x.invoiceDays / sum) * 100) : 0}%</td>
                 </tr>
               ))}
             </tbody>
@@ -1439,13 +1471,13 @@ function Audit({
         <p>
           Perkiraan hari yang mungkin dihindari oleh cek kelengkapan:{" "}
           <strong>
-            {(admin.invoiceDays * config.completenessReduction).toFixed(1)}{" "}
-            hari-invoice (
+            {dec(admin.invoiceDays * config.completenessReduction)} hari-invoice
+            (
             {sum
-              ? (
+              ? dec(
                   ((admin.invoiceDays * config.completenessReduction) / sum) *
-                  100
-                ).toFixed(1)
+                    100,
+                )
               : 0}
             %)
           </strong>

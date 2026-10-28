@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-// No upgrade-insecure-requests: the MVP is served over plain http on loopback.
+// No upgrade-insecure-requests: local use is plain http on loopback.
 const dev = process.env.NODE_ENV === "development";
 const csp = [
   "default-src 'self'",

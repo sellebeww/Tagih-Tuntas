@@ -37,7 +37,34 @@ function initialDB() {
   }
   return db;
 }
+// Hosted mode (e.g. Vercel + Upstash Redis): the whole DB is one key, loaded
+// into `hosted` for the synchronous store functions and written back after.
+// Concurrent writers are last-write-wins.
+const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+const kvToken =
+  process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+const kvKey = "tagih-tuntas:db";
+let hosted: DB | undefined;
+async function kv(path: string, body?: string) {
+  const r = await fetch(`${kvUrl}/${path}`, {
+    method: body === undefined ? "GET" : "POST",
+    headers: { Authorization: `Bearer ${kvToken}` },
+    body,
+    cache: "no-store",
+  });
+  if (!r.ok) throw Error("Penyimpanan data tidak dapat dihubungi.");
+  return (await r.json()).result as string | null;
+}
+export async function withDB<T>(work: () => T): Promise<T> {
+  if (!kvUrl || !kvToken) return work();
+  const saved = await kv(`get/${kvKey}`);
+  hosted = saved ? JSON.parse(saved) : initialDB();
+  const result = work();
+  await kv(`set/${kvKey}`, JSON.stringify(hosted));
+  return result;
+}
 export function read(): DB {
+  if (kvUrl && kvToken) return hosted!;
   if (!fs.existsSync(file)) {
     const db = initialDB();
     save(db);
@@ -46,6 +73,10 @@ export function read(): DB {
   return JSON.parse(fs.readFileSync(file, "utf8"));
 }
 export function save(db: DB) {
+  if (kvUrl && kvToken) {
+    hosted = db;
+    return;
+  }
   fs.mkdirSync(path.dirname(file), { recursive: true });
   const temporary = file + ".tmp";
   fs.writeFileSync(temporary, JSON.stringify(db, null, 2), { mode: 0o600 });

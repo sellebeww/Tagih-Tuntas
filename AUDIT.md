@@ -35,11 +35,11 @@ Audit mencakup aturan bisnis, siklus status, validasi API, token pembeli, data C
 
 ## Batas yang masih disengaja
 
-1. **MVP lokal, bukan siap produksi publik.** Pemilih vendor bukan autentikasi; pengguna lokal yang dipercaya dapat membaca semua vendor. JSON satu proses tidak cocok untuk banyak instance, tanpa audit log antirusak, backup otomatis, atau akses pembeli jarak jauh.
+1. **Aplikasi lokal, bukan siap produksi publik.** Pemilih vendor bukan autentikasi; pengguna lokal yang dipercaya dapat membaca semua vendor. JSON satu proses tidak cocok untuk banyak instance, tanpa audit log antirusak, backup otomatis, atau akses pembeli jarak jauh.
 2. **Model kalender sederhana.** Hari libur nasional, cut-off jam, dan beberapa payment run dalam sebulan belum didukung. Konfirmasi AP tetap diperlukan.
 3. **Data simulasi.** Tanggal demo tetap, rasio lambat bayar/peluang selesai/reduksi manfaat adalah asumsi. Diagnosis bukan bukti pembeli insolven.
 4. **CSV belum punya ID invoice historis wajib.** Impor menambah baris, tanpa deduplikasi otomatis; dua baris identik bisa berarti invoice berbeda. Operator harus menghindari impor berulang sampai identitas historis disepakati.
 5. **Pengujian browser terbatas Chrome.** Viewport mobile bukan pengganti perangkat fisik; belum diuji Safari/Firefox, pembaca layar, atau beban banyak pengguna.
 6. **Pembayaran dan dokumen tetap pencatatan manual.** Tidak ada bank, OCR, isi berkas, atau pengiriman pesan otomatis; bukti dan persetujuan berasal dari operator/pembeli.
 
-Prioritas berikutnya bila MVP dipakai dengan data nyata: autentikasi/otorisasi, database transaksional dan backup, identitas invoice historis untuk deduplikasi, tanggal operasional nyata, lalu validasi manfaat bersama vendor/AP. Penambahan integrasi tidak diprioritaskan sebelum proporsi masalah administratif terukur.
+Prioritas berikutnya bila aplikasi dipakai dengan data nyata: autentikasi/otorisasi, database transaksional dan backup, identitas invoice historis untuk deduplikasi, tanggal operasional nyata, lalu validasi manfaat bersama vendor/AP. Penambahan integrasi tidak diprioritaskan sebelum proporsi masalah administratif terukur.

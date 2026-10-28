@@ -312,7 +312,7 @@ export default function CompanyProfile() {
         <img src="/logo.png" alt="Tagih Tuntas" width={120} height={82} />
         <p>
           Piutang lebih jelas. Metadata saja, tanpa memegang dana.
-          <br />© 2026 Vassel Goleyu · Tagih Tuntas · Versi MVP
+          <br />© 2026 Vassel Goleyu · Tagih Tuntas
         </p>
         <a href="/aplikasi">Buka aplikasi →</a>
       </footer>
