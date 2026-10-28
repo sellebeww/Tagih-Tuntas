@@ -72,7 +72,7 @@ export default function BuyerPage({
       <img
         className="buyer-logo"
         src="/logo.png"
-        alt="TagihTuntas"
+        alt="Tagih Tuntas"
         width={150}
         height={102}
       />

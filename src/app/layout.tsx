@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "TagihTuntas · Piutang lebih jelas",
+  title: "Tagih Tuntas · Piutang lebih jelas",
   description:
     "Kenali hambatan invoice, lengkapi persyaratan, arahkan tindakan.",
   // Private local workspace; buyer token pages must never be indexed.

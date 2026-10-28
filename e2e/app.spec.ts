@@ -8,7 +8,7 @@ test("dashboard, all navigation, filters and honest evaluation", async ({
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
-  await page.goto("/");
+  await page.goto("/aplikasi");
   await expect(
     page.getByRole("heading", { name: "Setiap invoice, jelas langkahnya." }),
   ).toBeVisible();
@@ -51,7 +51,7 @@ test("dashboard, all navigation, filters and honest evaluation", async ({
 test("create invoice, duplicate prevention, and document submission gate", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/aplikasi");
   await page
     .getByRole("button", { name: "+ Invoice baru", exact: true })
     .click();
@@ -81,7 +81,7 @@ test("buyer confirms receipt, vendor refreshes and schedules payment", async ({
   page,
   context,
 }) => {
-  await page.goto("/");
+  await page.goto("/aplikasi");
   await page.getByRole("button", { name: "INV-1-003", exact: true }).click();
   await page
     .getByRole("button", { name: "Minta penerimaan", exact: true })
@@ -103,7 +103,7 @@ test("buyer confirms receipt, vendor refreshes and schedules payment", async ({
   await page.getByRole("button", { name: "Perbarui data" }).click();
   await expect(
     page.locator(".stat").filter({ hasText: "STATUS" }),
-  ).toContainText("diterima pembeli");
+  ).toContainText("Diterima pembeli");
   await page
     .getByLabel("Bukti konfirmasi jadwal dari AP")
     .fill("AP Sari mengonfirmasi tanggal 27 November");
@@ -113,14 +113,14 @@ test("buyer confirms receipt, vendor refreshes and schedules payment", async ({
   await page.getByRole("button", { name: "Tandai dijadwalkan bayar" }).click();
   await expect(
     page.locator(".stat").filter({ hasText: "STATUS" }),
-  ).toContainText("dijadwalkan bayar");
+  ).toContainText("Dijadwalkan bayar");
   await buyer.reload();
   await expect(buyer.getByRole("main").getByRole("alert")).toContainText(
     "digunakan",
   );
 });
 test("audit import, editable mapping and export download", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/aplikasi");
   await page
     .getByRole("navigation")
     .getByRole("button", { name: "Audit invoice lama" })
@@ -144,7 +144,7 @@ test("mobile layout, profile edits and expired token page", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
+  await page.goto("/aplikasi");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   expect(
     await page.evaluate(
@@ -182,7 +182,7 @@ test("document correction unblocks sending and buyer dispute keeps its reason", 
   page,
   context,
 }) => {
-  await page.goto("/");
+  await page.goto("/aplikasi");
   await page.getByRole("button", { name: "INV-1-001", exact: true }).click();
   await page
     .getByRole("combobox", { name: "Jenis dokumen", exact: true })
@@ -219,7 +219,7 @@ test("document correction unblocks sending and buyer dispute keeps its reason", 
   await page.getByRole("button", { name: "Perbarui data" }).click();
   await expect(
     page.locator(".stat").filter({ hasText: "STATUS" }),
-  ).toContainText("disengketakan");
+  ).toContainText("Disengketakan");
   await expect(
     page.getByText("Sinyal: Selisih dengan PO sebesar Rp 250.000", {
       exact: true,
@@ -229,14 +229,14 @@ test("document correction unblocks sending and buyer dispute keeps its reason", 
 test("company profile and app link to each other", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
-  await page.goto("/");
+  await page.goto("/aplikasi");
   await page.getByRole("link", { name: "← Profil perusahaan" }).click();
-  await expect(page).toHaveURL(/\/tentang$/);
+  await expect(page).toHaveURL(/\/$/);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "bayar tuntas.",
   );
   const shot = page.getByRole("img", {
-    name: "Tampilan dasbor piutang TagihTuntas",
+    name: "Tampilan dasbor piutang Tagih Tuntas",
   });
   await shot.scrollIntoViewIfNeeded();
   await expect

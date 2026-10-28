@@ -16,6 +16,9 @@ const csp = [
 ].join("; ");
 const config: NextConfig = {
   poweredByHeader: false,
+  async redirects() {
+    return [{ source: "/tentang", destination: "/", permanent: true }];
+  },
   async headers() {
     return [
       {

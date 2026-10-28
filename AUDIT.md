@@ -1,4 +1,4 @@
-# Audit TagihTuntas — 18 Oktober 2026
+# Audit Tagih Tuntas — 18 Oktober 2026
 
 Audit mencakup aturan bisnis, siklus status, validasi API, token pembeli, data CSV, penyimpanan lokal, UI, dan pengujian browser. Data pengguna di `data/db.json` tidak direset untuk pengujian; tes memakai direktori temporer.
 

@@ -1,4 +1,4 @@
-# Model Ancaman — TagihTuntas (19 Oktober 2026)
+# Model Ancaman — Tagih Tuntas (19 Oktober 2026)
 
 MVP lokal Next.js 16 (App Router) + berkas JSON (`data/db.json`), satu proses Node, terikat `127.0.0.1`. Tanpa autentikasi vendor (didokumentasikan sebagai batas MVP).
 
