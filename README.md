@@ -8,6 +8,7 @@
 
 <p><img src="https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white&labelColor=3a3f47" alt="Next.js 16"> <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white&labelColor=3a3f47" alt="React 19"> <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white&labelColor=3a3f47" alt="TypeScript 5"> <img src="https://img.shields.io/badge/Tailwind-4-38BDF8?logo=tailwindcss&logoColor=white&labelColor=3a3f47" alt="Tailwind 4"> <img src="https://img.shields.io/badge/mode-demo%20%28data%20fiktif%29-d4a017?labelColor=3a3f47" alt="mode demo (data fiktif)"> <img src="https://img.shields.io/badge/license-All%20rights%20reserved-1e3a8a?labelColor=3a3f47" alt="license All rights reserved"></p>
 
+<p><a href="https://tagih-tuntas.vercel.app"><b>Lihat demo langsung &rarr;</b></a></p>
 </div>
 
 Tidak memegang dana, tidak memberi pembiayaan, tidak mengirim pesan otomatis, dan tidak terintegrasi dengan bank, akuntansi, atau e-Faktur. Semua data seed fiktif.
