@@ -102,7 +102,7 @@ export default function CompanyProfile() {
           <a href="#nilai">Nilai</a>
         </nav>
         <a className="cp-btn" href="/aplikasi">
-          Buka aplikasi <span aria-hidden="true">→</span>
+          Buka demo <span aria-hidden="true">→</span>
         </a>
       </header>
       <main id="cp-main">
@@ -127,7 +127,7 @@ export default function CompanyProfile() {
             </p>
             <div className="cp-cta">
               <a className="cp-btn big" href="/aplikasi">
-                Coba aplikasinya <span aria-hidden="true">→</span>
+                Buka demo <span aria-hidden="true">→</span>
               </a>
               <a className="cp-ghost" href="#cara-kerja">
                 Lihat cara kerja
@@ -304,7 +304,7 @@ export default function CompanyProfile() {
             Jelajahi ruang kerja demo dengan lima vendor dan 150 invoice contoh.
           </p>
           <a className="cp-btn big light" href="/aplikasi">
-            Masuk ke aplikasi <span aria-hidden="true">→</span>
+            Buka demo <span aria-hidden="true">→</span>
           </a>
         </section>
       </main>
@@ -314,7 +314,7 @@ export default function CompanyProfile() {
           Piutang lebih jelas. Metadata saja, tanpa memegang dana.
           <br />© 2026 Vassel Goleyu · Tagih Tuntas
         </p>
-        <a href="/aplikasi">Buka aplikasi →</a>
+        <a href="/aplikasi">Buka demo →</a>
       </footer>
     </div>
   );

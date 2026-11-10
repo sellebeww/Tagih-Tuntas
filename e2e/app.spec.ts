@@ -242,7 +242,7 @@ test("company profile and app link to each other", async ({ page }) => {
   await expect
     .poll(() => shot.evaluate((i: HTMLImageElement) => i.naturalWidth))
     .toBeGreaterThan(0);
-  await page.getByRole("link", { name: "Buka aplikasi →" }).first().click();
+  await page.getByRole("link", { name: "Buka demo →" }).first().click();
   await expect(
     page.getByRole("heading", { name: "Setiap invoice, jelas langkahnya." }),
   ).toBeVisible();
